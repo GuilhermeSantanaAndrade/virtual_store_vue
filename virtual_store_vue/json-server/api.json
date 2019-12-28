@@ -1,0 +1,14 @@
+{
+    "produtos": [
+	    {
+		    "id": "notebook",
+			"descricao": "Notebook",
+			"preco": 1229.99
+		},
+		{
+		    "id": "smartwatch",
+			"descricao": "smartwatch",
+			"preco": 890.99
+		}
+	]
+}
