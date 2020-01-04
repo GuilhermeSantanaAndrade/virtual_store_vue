@@ -5,6 +5,11 @@ import store from "./store";
 
 Vue.config.productionTip = false;
 
+Vue.filter("currency", (aValue: Number) => {
+  const value = aValue ? aValue : 0;
+  return value.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+});
+
 new Vue({
   router,
   store,

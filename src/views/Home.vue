@@ -2,17 +2,19 @@
   <div class="container">
     <ul class="produtos">
       <li
-        class="produto"
-        :v-if="$store.state.produtos.length > 0"
-        v-for="produto in $store.state.produtos"
+        class="produto pointer"
+        :v-if="produtos.length > 0"
+        v-for="produto in produtos"
         :key="produto.id"
+        @click="adicionarProduto(produto)"
       >
-        <img :src="produto.imagemPath" :alt="produto.imagemPath" />
-        <div>
+        <!-- <img :src="produto.imagemPath" :alt="produto.imagemPath" /> -->
+        <img src="../assets/images/notebook/notebook.jpg" :alt="produto.imagemPath" class="imagem" />
+        <div class="produto_conteudo">
           <h2>{{produto.nome}}</h2>
           <span>{{produto.descricao}}</span>
         </div>
-        <p class="preco">{{produto.preco}}</p>
+        <p class="preco produto_conteudo">{{produto.preco | currency}}</p>
       </li>
     </ul>
   </div>
@@ -20,14 +22,24 @@
 
 <script lang="ts">
 import Vue from "vue";
+import { IProduto } from "@/store/index.ts";
+import { mapState, mapMutations } from "vuex";
 
 export default Vue.extend({
   name: "home",
   data() {
     return {};
   },
-  methods: {},
-  computed: {}
+  methods: {
+    ...mapMutations(["ADD_PRODUTO_NO_CARRINHO"]),
+    adicionarProduto(produto: IProduto) {
+      this.ADD_PRODUTO_NO_CARRINHO(produto);
+    }
+  },
+  computed: {
+    ...mapState(["produtos", "carrinho"])
+  },
+  created() {}
 });
 </script>
 
@@ -46,20 +58,23 @@ export default Vue.extend({
 }
 
 .produto {
+  color: rgba(0, 0, 0, 0.5);
   display: grid;
-  grid-template-columns: 21% 70% 10%;
+  grid-template-columns: 22% 65% 1fr;
   border-style: solid;
-  border-width: 1px;
+  border-width: 0px;
   border-color: rgba(0, 0, 0, 0.05);
-
-  box-shadow: 0 0 2rem rgba(0, 0, 0, 0.1);
   box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 2rem rgba(0, 0, 0, 0.1);
   background: #ffffff;
-  padding: 10px 0px 10px 10px;
+  margin-left: 100px;
   margin-bottom: 40px;
   min-width: 600px;
-  height: 70px;
-  max-height: 100px;
+  height: 120px;
+}
+
+.produto_conteudo {
+  padding: 10px 10px 0 10px;
 }
 
 h2 {
@@ -72,8 +87,11 @@ span {
 }
 
 .preco {
-  font-weight: bold;
   text-align: right;
-  padding-right: 30px;
+}
+
+.imagem {
+  width: 100%;
+  height: 100%;
 }
 </style>

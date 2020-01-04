@@ -12,6 +12,7 @@ import { api } from "@/services/api";
 import Modal from "@/components/Modal.vue";
 import Header from "@/components/Header.vue";
 import Home from "@/views/Home.vue";
+import { mapActions } from "vuex";
 
 export default Vue.extend({
   name: "app",
@@ -22,6 +23,9 @@ export default Vue.extend({
   },
   data() {
     return {};
+  },
+  methods: {
+    ...mapActions(["getProdutos"])
   },
   async created() {
     this.$store.dispatch("getProdutos");
@@ -45,5 +49,9 @@ ul {
 
 a {
   text-decoration: none;
+}
+
+.pointer {
+  cursor: pointer;
 }
 </style>

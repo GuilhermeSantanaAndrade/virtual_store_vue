@@ -3,17 +3,22 @@
     <img src="../assets/techno.svg" class="logo" />
     <div>
       <i for="carrinho" class="fa fa-shopping-cart pointer"></i>
-      <span id="carrinho" class="pointer">Carrinho</span>
+      <span id="carrinho" class="pointer">Carrinho | {{String(carrinho.length)}} itens</span>
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
+import { mapState } from "vuex";
+
 export default Vue.extend({
   name: "Header",
   data() {
     return {};
+  },
+  computed: {
+    ...mapState(["produtos", "carrinho"])
   }
 });
 </script>
@@ -34,10 +39,6 @@ export default Vue.extend({
   height: 42px;
   width: 85px;
   padding-left: 5px;
-}
-
-.pointer {
-  cursor: pointer;
 }
 
 #carrinho {
