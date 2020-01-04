@@ -9,6 +9,7 @@ export interface IProduto {
   nome: string;
   descricao: string;
   preco: number;
+  imagemPath: string;
 }
 
 export default new Vuex.Store({

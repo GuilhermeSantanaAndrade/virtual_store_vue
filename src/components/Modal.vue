@@ -1,5 +1,5 @@
 <template>
-  <div></div>
+  <div class="container"></div>
 </template>
 
 <script lang="ts">
@@ -12,5 +12,8 @@ export default Vue.extend({
 });
 </script>
 
-<style>
+<style scoped>
+.container {
+  position: absolute;
+}
 </style>

@@ -1,6 +1,6 @@
 <template>
   <div class="header flex">
-    <img src="../assets/logo.png" />
+    <img src="../assets/techno.svg" class="logo" />
     <div>
       <i for="carrinho" class="fa fa-shopping-cart pointer"></i>
       <span id="carrinho" class="pointer">Carrinho</span>
@@ -18,9 +18,10 @@ export default Vue.extend({
 });
 </script>
 
-<style>
+<style scoped>
 .header {
   background: rgba(0, 0, 0, 0.589);
+  background: #1a1a1a;
   height: 42px;
 }
 
@@ -29,9 +30,10 @@ export default Vue.extend({
   justify-content: space-between;
 }
 
-img {
-  max-height: 42px;
-  max-width: 42px;
+.logo {
+  height: 42px;
+  width: 85px;
+  padding-left: 5px;
 }
 
 .pointer {
@@ -43,7 +45,7 @@ img {
   text-align: center;
   color: white;
   vertical-align: middle;
-  padding: 0 5px 0 5px;
+  padding: 0 10px 0 5px;
 }
 
 .fa-shopping-cart {
