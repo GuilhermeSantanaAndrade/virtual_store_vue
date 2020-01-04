@@ -1,24 +1,27 @@
 <template>
   <div id="app">
-    <ul>
-      <li
-        :v-if="$store.state.produtos.length > 0"
-        v-for="produto in $store.state.produtos"
-        :key="produto.id"
-      >{{produto.descricao}}</li>
-    </ul>
+    <Header />
+    <Modal />
+    <Home />
   </div>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
-import { api } from "./services/api";
+import { api } from "@/services/api";
+import Modal from "@/components/Modal.vue";
+import Header from "@/components/Header.vue";
+import Home from "@/views/Home.vue";
 
 export default Vue.extend({
+  name: "app",
+  components: {
+    Modal,
+    Header,
+    Home
+  },
   data() {
-    return {
-      teste: "testando"
-    };
+    return {};
   },
   async created() {
     this.$store.dispatch("getProdutos");
@@ -29,5 +32,18 @@ export default Vue.extend({
 <style>
 #app {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
+}
+
+* {
+  margin: 0px;
+  padding: 0px;
+}
+
+ul {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
 }
 </style>

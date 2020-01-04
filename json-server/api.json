@@ -2,12 +2,14 @@
     "produtos": [
 	    {
 		    "id": "notebook",
-			"descricao": "Notebook",
+			"nome": "Notebook",
+			"descricao": "Comuputador pessoal",
 			"preco": 1229.99
 		},
 		{
 		    "id": "smartwatch",
-			"descricao": "smartwatch",
+			"nome": "smartwatch",
+			"descricao": "Relógio de pulso",
 			"preco": 890.99
 		}
 	]

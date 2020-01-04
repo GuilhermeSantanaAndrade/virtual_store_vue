@@ -6,6 +6,7 @@ Vue.use(Vuex);
 
 export interface IProduto {
   id: string;
+  nome: string;
   descricao: string;
   preco: number;
 }
@@ -21,8 +22,12 @@ export default new Vuex.Store({
   },
   actions: {
     async getProdutos(context) {
-      const response = await api.get("/produtos");
-      context.commit("UPDATE_PRODUTOS", response);
+      try {
+        const response = await api.get("/produtos");
+        context.commit("UPDATE_PRODUTOS", response);
+      } catch (error) {
+        window.alert(error);
+      }
     }
   },
   modules: {}
