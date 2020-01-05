@@ -6,9 +6,8 @@
         :v-if="produtos.length > 0"
         v-for="produto in produtos"
         :key="produto.id"
-        @click="adicionarProduto(produto)"
+        @click="selecionarProduto(produto)"
       >
-        <!-- <img :src="produto.imagemPath" :alt="produto.imagemPath" /> -->
         <img src="../assets/images/notebook/notebook.jpg" :alt="produto.imagemPath" class="imagem" />
         <div class="produto_conteudo">
           <h2>{{produto.nome}}</h2>
@@ -31,9 +30,9 @@ export default Vue.extend({
     return {};
   },
   methods: {
-    ...mapMutations(["ADD_PRODUTO_NO_CARRINHO"]),
-    adicionarProduto(produto: IProduto) {
-      this.ADD_PRODUTO_NO_CARRINHO(produto);
+    ...mapMutations(["ADD_PRODUTO_NO_CARRINHO", "UPDATE_PRODUTO_ATUAL"]),
+    selecionarProduto(produto: IProduto) {
+      this.UPDATE_PRODUTO_ATUAL(produto);
     }
   },
   computed: {
@@ -80,10 +79,6 @@ export default Vue.extend({
 h2 {
   color: rgb(216, 130, 0);
   margin: 0px 0px 15px 0px;
-}
-
-span {
-  /*word-wrap: break-word;*/
 }
 
 .preco {

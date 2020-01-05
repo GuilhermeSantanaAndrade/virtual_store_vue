@@ -1,34 +1,47 @@
 <template>
-  <div></div>
-
-  <!-- <section class="modal" v-if="produto">
+  <section class="modal" v-if="produtoAtual">
     <div class="modal_container">
+      <button class="modal_closeButton" @click="UPDATE_PRODUTO_ATUAL(undefined)">X</button>
       <div class="modal_img">
-        <img :src="produto.img" :alt="produto.nome" />
+        <img src="../assets/images/notebook/notebook-foto.jpg" :alt="produtoAtual.imagemPath" />
       </div>
       <div class="modal_dados">
-        <span class="modal_preco">{{produto.preco}}</span>
-        <h2 class="modal_titulo">{{produto.nome}}</h2>
-        <p>{{produto.descricao}}</p>
-        <button class="modal_btn">Adicionar Item</button>
+        <span class="modal_preco">{{produtoAtual.preco | currency}}</span>
+        <h2 class="modal_titulo">{{produtoAtual.nome}}</h2>
+        <p>{{produtoAtual.descricao}}</p>
+        <button
+          class="modal_btn"
+          @click="adicionarProdutoNoCarrinho(produtoAtual)"
+        >Adicionar ao carrinho</button>
       </div>
     </div>
-  </section>-->
+  </section>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
-import { mapState } from "vuex";
+import { mapState, mapMutations } from "vuex";
 import { IProduto } from "@/store/index";
+import { EventBus } from "@/main.ts";
 
 export default Vue.extend({
   name: "Modal",
   data() {
     return {};
   },
-  props: {},
+  methods: {
+    ...mapMutations(["ADD_PRODUTO_NO_CARRINHO", "UPDATE_PRODUTO_ATUAL"]),
+    adicionarProdutoNoCarrinho(produto: IProduto) {
+      this.ADD_PRODUTO_NO_CARRINHO(produto);
+      EventBus.$emit("show-message", {
+        msg: "Produto Adicionado.",
+        timeout: 3000
+      });
+      this.UPDATE_PRODUTO_ATUAL(undefined);
+    }
+  },
   computed: {
-    ...mapState(["produtos"])
+    ...mapState(["produtos", "produtoAtual"])
   }
 });
 </script>
@@ -60,12 +73,14 @@ export default Vue.extend({
   background: linear-gradient(to right, transparent 250px, white 250px);
   z-index: 1;
   display: grid;
-  align-items: end;
   grid-gap: 50px;
   padding: 50px 50px 50px 0;
+  width: 90%;
+  grid-template-columns: 300px 1fr;
 }
 
 .modal_img {
+  max-width: 300px;
   grid-column: 1;
   box-shadow: 0px 3px 4px rgba(0, 0, 0, 0.1), 0px 4px 10px rgba(0, 0, 0, 0.2);
 }
@@ -82,6 +97,7 @@ export default Vue.extend({
 
 .modal_titulo {
   font-size: 3rem;
+  margin-bottom: 30px;
 }
 
 .modal_btn {
@@ -97,5 +113,17 @@ export default Vue.extend({
 
 .modal_btn:active {
   background: #808080;
+}
+
+.modal_closeButton {
+  position: absolute;
+  border: solid;
+  cursor: pointer;
+  top: -12px;
+  right: -12px;
+  width: 24px;
+  height: 24px;
+  border-radius: 100%;
+  background: white;
 }
 </style>

@@ -16,7 +16,8 @@ export interface IProduto {
 export default new Vuex.Store({
   state: {
     produtos: [],
-    carrinho: []
+    carrinho: [],
+    produtoAtual: undefined
   },
   mutations: {
     UPDATE_PRODUTOS(state, payload: IProduto[]) {
@@ -26,6 +27,10 @@ export default new Vuex.Store({
     ADD_PRODUTO_NO_CARRINHO(state, payload: IProduto) {
       //@ts-ignore
       state.carrinho.push(payload);
+    },
+    UPDATE_PRODUTO_ATUAL(state, payload: IProduto | undefined) {
+      //@ts-ignore
+      state.produtoAtual = payload;
     }
   },
   actions: {

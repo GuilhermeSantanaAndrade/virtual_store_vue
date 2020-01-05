@@ -25,8 +25,8 @@ export default Vue.extend({
 
 <style scoped>
 .header {
-  background: rgba(0, 0, 0, 0.589);
   background: #1a1a1a;
+  width: 100%;
   height: 42px;
 }
 

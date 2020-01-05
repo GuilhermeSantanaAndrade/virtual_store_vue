@@ -10,6 +10,8 @@ Vue.filter("currency", (aValue: Number) => {
   return value.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
 });
 
+export let EventBus = new Vue();
+
 new Vue({
   router,
   store,
