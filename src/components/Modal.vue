@@ -110,4 +110,42 @@ export default Vue.extend({
   border-radius: 100%;
   background: white;
 }
+
+.carrinho_produtos {
+  width: 650px;
+}
+
+.carrinho_produto {
+  display: grid;
+  grid-template-columns: 1fr 1fr 50px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  line-height: 30px;
+}
+
+.carrinho_dados {
+  grid-column: 2;
+}
+
+.carrinho_titulo {
+  border-bottom: 1px solid black;
+  padding-bottom: 10px;
+}
+
+.carrinho_remover {
+  color: rgba(255, 0, 0, 0.3);
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  background: rgba(0, 0, 0, 0);
+}
+
+.carrinho_preco {
+  text-align: right;
+  padding-right: 10px;
+}
+
+.carrinho_total {
+  padding-top: 20px;
+  font-weight: bold;
+}
 </style>

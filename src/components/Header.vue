@@ -3,7 +3,11 @@
     <img src="../assets/techno.svg" class="logo" />
     <div>
       <i for="carrinho" class="fa fa-shopping-cart pointer"></i>
-      <span id="carrinho" class="pointer">Carrinho | {{String(carrinho.length)}} itens</span>
+      <span
+        id="carrinho"
+        class="pointer"
+        @click="handleCarrinhoClick()"
+      >Carrinho | {{String(carrinho.length)}} itens</span>
     </div>
   </div>
 </template>
@@ -16,6 +20,11 @@ export default Vue.extend({
   name: "Header",
   data() {
     return {};
+  },
+  methods: {
+    handleCarrinhoClick() {
+      this.$emit("update:abrirCarrinho", true);
+    }
   },
   computed: {
     ...mapState(["produtos", "carrinho"])

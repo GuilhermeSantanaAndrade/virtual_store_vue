@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <!-- Cabeçalho -->
-    <Header />
+    <Header :abrirCarrinho.sync="abrirCarrinho" />
 
     <!-- Mensagens de alerta -->
     <transition appear name="fade">
@@ -22,6 +22,29 @@
             class="modal_btn"
             @click="adicionarProdutoNoCarrinho(produtoAtual)"
           >Adicionar ao carrinho</button>
+        </div>
+      </Modal>
+    </transition>
+
+    <!-- Modal do carinho -->
+    <transition appear name="fade">
+      <Modal v-if="carrinho" :aberto="abrirCarrinho" @on-close="onCloseCarrinho()">
+        <div class="modal_img" style="max-height: 300px;">
+          <img src="./assets/carrinho_cheio.jpg" />
+        </div>
+        <div class="carrinho_dados">
+          <ul class="carrinho_produtos">
+            <h2 class="carrinho_titulo">Carrinho</h2>
+            <li v-for="(prod, index) in carrinho" :key="index" class="carrinho_produto">
+              <p>{{prod.nome}}</p>
+              <p class="carrinho_preco">{{prod.preco | currency}}</p>
+              <button class="carrinho_remover">X</button>
+            </li>
+            <p
+              class="carrinho_total"
+            >Total: {{carrinho.reduce((sum, value) => sum + value.preco, 0) | currency}}</p>
+            <button @click="finalizarCompra()" class="modal_btn">Finalizar Compra</button>
+          </ul>
         </div>
       </Modal>
     </transition>
@@ -51,7 +74,9 @@ export default Vue.extend({
     Message
   },
   data() {
-    return {};
+    return {
+      abrirCarrinho: false
+    };
   },
   methods: {
     ...mapActions(["getProdutos"]),
@@ -66,10 +91,21 @@ export default Vue.extend({
     },
     onCloseProdutoAtual() {
       this.UPDATE_PRODUTO_ATUAL(undefined);
+    },
+    onCloseCarrinho() {
+      this.abrirCarrinho = false;
+    },
+    finalizarCompra() {
+      debugger;
+      const result = this.carrinho.reduce(
+        (sum: number, value: number) => sum + value,
+        0
+      );
+      console.log(result);
     }
   },
   computed: {
-    ...mapState(["produtos", "produtoAtual"])
+    ...mapState(["produtos", "produtoAtual", "carrinho"])
   },
   async created() {
     this.getProdutos();
