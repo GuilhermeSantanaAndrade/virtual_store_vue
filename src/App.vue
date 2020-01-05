@@ -1,12 +1,32 @@
 <template>
   <div id="app">
+    <!-- Cabeçalho -->
     <Header />
+
+    <!-- Mensagens de alerta -->
     <transition appear name="fade">
       <Message />
     </transition>
+
+    <!-- Modal do Produto selecionado -->
     <transition appear name="fade">
-      <Modal />
+      <Modal v-if="produtoAtual" :aberto="!!produtoAtual" @on-close="onCloseProdutoAtual()">
+        <div class="modal_img">
+          <img src="./assets/images/notebook/notebook-foto.jpg" :alt="produtoAtual.imagemPath" />
+        </div>
+        <div class="modal_dados">
+          <span class="modal_preco">{{produtoAtual.preco | currency}}</span>
+          <h2 class="modal_titulo">{{produtoAtual.nome}}</h2>
+          <p>{{produtoAtual.descricao}}</p>
+          <button
+            class="modal_btn"
+            @click="adicionarProdutoNoCarrinho(produtoAtual)"
+          >Adicionar ao carrinho</button>
+        </div>
+      </Modal>
     </transition>
+
+    <!-- Conteúdo da página inicial -->
     <Home />
   </div>
 </template>
@@ -18,8 +38,9 @@ import Modal from "@/components/Modal.vue";
 import Header from "@/components/Header.vue";
 import Message from "@/components/Message.vue";
 import Home from "@/views/Home.vue";
-
-import { mapActions } from "vuex";
+import { mapState, mapActions, mapMutations } from "vuex";
+import { IProduto } from "@/store/index";
+import { EventBus } from "./main";
 
 export default Vue.extend({
   name: "app",
@@ -33,10 +54,25 @@ export default Vue.extend({
     return {};
   },
   methods: {
-    ...mapActions(["getProdutos"])
+    ...mapActions(["getProdutos"]),
+    ...mapMutations(["ADD_PRODUTO_NO_CARRINHO", "UPDATE_PRODUTO_ATUAL"]),
+    adicionarProdutoNoCarrinho(produto: IProduto) {
+      this.ADD_PRODUTO_NO_CARRINHO(produto);
+      EventBus.$emit("show-message", {
+        msg: "Produto Adicionado.",
+        timeout: 1500
+      });
+      this.UPDATE_PRODUTO_ATUAL(undefined);
+    },
+    onCloseProdutoAtual() {
+      this.UPDATE_PRODUTO_ATUAL(undefined);
+    }
+  },
+  computed: {
+    ...mapState(["produtos", "produtoAtual"])
   },
   async created() {
-    this.$store.dispatch("getProdutos");
+    this.getProdutos();
   }
 });
 </script>

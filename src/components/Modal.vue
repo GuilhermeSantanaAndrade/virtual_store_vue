@@ -1,48 +1,32 @@
 <template>
-  <section class="modal" v-if="produtoAtual">
+  <section v-if="aberto" class="modal">
     <div class="modal_container">
-      <button class="modal_closeButton" @click="UPDATE_PRODUTO_ATUAL(undefined)">X</button>
-      <div class="modal_img">
-        <img src="../assets/images/notebook/notebook-foto.jpg" :alt="produtoAtual.imagemPath" />
-      </div>
-      <div class="modal_dados">
-        <span class="modal_preco">{{produtoAtual.preco | currency}}</span>
-        <h2 class="modal_titulo">{{produtoAtual.nome}}</h2>
-        <p>{{produtoAtual.descricao}}</p>
-        <button
-          class="modal_btn"
-          @click="adicionarProdutoNoCarrinho(produtoAtual)"
-        >Adicionar ao carrinho</button>
-      </div>
+      <button class="modal_closeButton" @click="onClose()">X</button>
+      <slot></slot>
     </div>
   </section>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
-import { mapState, mapMutations } from "vuex";
-import { IProduto } from "@/store/index";
-import { EventBus } from "@/main.ts";
 
 export default Vue.extend({
   name: "Modal",
   data() {
     return {};
   },
-  methods: {
-    ...mapMutations(["ADD_PRODUTO_NO_CARRINHO", "UPDATE_PRODUTO_ATUAL"]),
-    adicionarProdutoNoCarrinho(produto: IProduto) {
-      this.ADD_PRODUTO_NO_CARRINHO(produto);
-      EventBus.$emit("show-message", {
-        msg: "Produto Adicionado.",
-        timeout: 3000
-      });
-      this.UPDATE_PRODUTO_ATUAL(undefined);
+  props: {
+    aberto: {
+      type: Boolean,
+      required: true
     }
   },
-  computed: {
-    ...mapState(["produtos", "produtoAtual"])
-  }
+  methods: {
+    onClose() {
+      this.$emit("on-close");
+    }
+  },
+  computed: {}
 });
 </script>
 

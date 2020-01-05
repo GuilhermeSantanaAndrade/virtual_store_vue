@@ -4,7 +4,7 @@
 		    "id": "notebook",
 			"nome": "Notebook",
 			"descricao": "Computador pessoal",
-			"preco": 1229.99,
+			"preco": 2229.99,
 			"imagemPath": "../assets/notebook/notebook.jpg"
 		},
 		{
@@ -13,6 +13,13 @@
 			"descricao": "Relógio de pulso",
 			"preco": 890.99,
 			"imagemPath": "../assets/smartwatch/smartwatch.jpg"
+		},
+		{
+		    "id": "tablet",
+			"nome": "Tablet",
+			"descricao": "Dispositivo móvel",
+			"preco": 1299.90,
+			"imagemPath": "../assets/tablet/tablet.jpg"
 		}
 	]
 }
