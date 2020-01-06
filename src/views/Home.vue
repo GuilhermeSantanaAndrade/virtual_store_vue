@@ -44,8 +44,7 @@ export default Vue.extend({
 
 <style scoped>
 .container {
-  background: linear-gradient(to right, rgba(0, 0, 0, 0.589) 25%, #ffffff 25%);
-  background: linear-gradient(to right, #1a1a1a 25%, #ffffff 25%);
+  background: linear-gradient(to right, #1a1a1a 335px, #ffffff 335px);
   height: 100vh;
 }
 
@@ -63,7 +62,6 @@ export default Vue.extend({
   border-style: solid;
   border-width: 0px;
   border-color: rgba(0, 0, 0, 0.05);
-  box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
   box-shadow: 0 0 2rem rgba(0, 0, 0, 0.1);
   background: #ffffff;
   margin-left: 100px;
