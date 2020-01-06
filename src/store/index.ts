@@ -72,7 +72,6 @@ export default new Vuex.Store({
     },
     async enviaVenda(context, payload) {
       try {
-        debugger;
         const min = 0;
         const max = 9999999;
         const randomId = Math.floor(Math.random() * (+max - +min)) + +min;

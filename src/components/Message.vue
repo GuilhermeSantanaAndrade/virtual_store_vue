@@ -1,5 +1,10 @@
 <template>
-  <div v-if="mostrando" class="container" :style="{background: bgColor}">{{mensagem}}</div>
+  <div>
+    <div v-if="mostrando" class="container" :style="{background: bgColor}">
+      <button class="close_button" @click="ocultar()">x</button>
+      {{mensagem}}
+    </div>
+  </div>
 </template>
 
 <script lang="ts">
@@ -17,9 +22,7 @@ export default Vue.extend({
   },
   methods: {
     ocultar(timeout: number = 0) {
-      setTimeout(() => {
-        this.mostrando = false;
-      }, timeout);
+      this.mostrando = false;
     },
     mostrar(
       msg: string,
@@ -46,7 +49,9 @@ export default Vue.extend({
 
       this.mensagem = msg;
       this.mostrando = true;
-      this.ocultar(timeout);
+      setTimeout(() => {
+        this.ocultar();
+      }, timeout);
     }
   },
   created() {
@@ -70,5 +75,16 @@ export default Vue.extend({
   line-height: 50px;
   justify-content: center;
   align-items: center;
+}
+
+.close_button {
+  background: rgba(0, 0, 0, 0);
+  color: white;
+  padding: 3px 9px 3px 3px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  border: none;
+  font-size: 1rem;
 }
 </style>
