@@ -1,5 +1,5 @@
 <template>
-  <div v-if="mostrando" class="container">{{mensagem}}</div>
+  <div v-if="mostrando" class="container" :style="{background: bgColor}">{{mensagem}}</div>
 </template>
 
 <script lang="ts">
@@ -11,7 +11,8 @@ export default Vue.extend({
   data() {
     return {
       mostrando: false,
-      mensagem: ""
+      mensagem: "",
+      bgColor: "#FFF"
     };
   },
   methods: {
@@ -20,7 +21,29 @@ export default Vue.extend({
         this.mostrando = false;
       }, timeout);
     },
-    mostrar(msg: string, timeout: number = 3000) {
+    mostrar(
+      msg: string,
+      timeout: number = 3000,
+      tipoMsg: "success" | "warning" | "error" = "success"
+    ) {
+      switch (tipoMsg) {
+        case "success": {
+          this.bgColor = "rgb(0, 199, 10)";
+          break;
+        }
+        case "warning": {
+          this.bgColor = "rgb(196, 199, 0)";
+          break;
+        }
+        case "error": {
+          this.bgColor = "rgb(199, 0, 10)";
+          break;
+        }
+        default: {
+          this.bgColor = "rgb(0, 199, 10)";
+        }
+      }
+
       this.mensagem = msg;
       this.mostrando = true;
       this.ocultar(timeout);
@@ -28,7 +51,7 @@ export default Vue.extend({
   },
   created() {
     EventBus.$on("show-message", (event: any) => {
-      this.mostrar(event.msg, event.timeout);
+      this.mostrar(event.msg, event.timeout, event.tipoMsg);
     });
   }
 });
@@ -42,7 +65,7 @@ export default Vue.extend({
   top: 25px;
   color: white;
   z-index: 999;
-  background: rgb(0, 199, 10);
+  background: #fff;
   width: 300px;
   line-height: 50px;
   justify-content: center;

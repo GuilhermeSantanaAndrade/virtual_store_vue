@@ -5,12 +5,17 @@
 
     <!-- Mensagens de alerta -->
     <transition appear name="fade">
-      <Message />
+      <Message key="message" />
     </transition>
 
     <!-- Modal do Produto selecionado -->
     <transition appear name="fade">
-      <Modal v-if="produtoAtual" :aberto="!!produtoAtual" @on-close="onCloseProdutoAtual()">
+      <Modal
+        v-if="produtoAtual"
+        :aberto="!!produtoAtual"
+        @on-close="onCloseProdutoAtual()"
+        key="modalProduto"
+      >
         <div class="modal_img">
           <img src="./assets/images/notebook/notebook-foto.jpg" :alt="produtoAtual.imagemPath" />
         </div>
@@ -38,7 +43,7 @@
             <li v-for="(prod, index) in carrinho" :key="index" class="carrinho_produto">
               <p>{{prod.nome}}</p>
               <p class="carrinho_preco">{{prod.preco | currency}}</p>
-              <button class="carrinho_remover">X</button>
+              <button class="carrinho_remover" @click="removerProdutoDoCarrinho(index)">X</button>
             </li>
             <p
               class="carrinho_total"
@@ -79,8 +84,12 @@ export default Vue.extend({
     };
   },
   methods: {
-    ...mapActions(["getProdutos"]),
-    ...mapMutations(["ADD_PRODUTO_NO_CARRINHO", "UPDATE_PRODUTO_ATUAL"]),
+    ...mapActions(["getProdutos", "enviaVenda"]),
+    ...mapMutations([
+      "ADD_PRODUTO_NO_CARRINHO",
+      "UPDATE_PRODUTO_ATUAL",
+      "REMOVE_PRODUTO_DO_CARRINHO"
+    ]),
     adicionarProdutoNoCarrinho(produto: IProduto) {
       this.ADD_PRODUTO_NO_CARRINHO(produto);
       EventBus.$emit("show-message", {
@@ -89,6 +98,14 @@ export default Vue.extend({
       });
       this.UPDATE_PRODUTO_ATUAL(undefined);
     },
+    removerProdutoDoCarrinho(idxProduto: number) {
+      this.REMOVE_PRODUTO_DO_CARRINHO(idxProduto);
+      EventBus.$emit("show-message", {
+        msg: "Produto Removido",
+        timeout: 3000,
+        tipoMsg: "warning"
+      });
+    },
     onCloseProdutoAtual() {
       this.UPDATE_PRODUTO_ATUAL(undefined);
     },
@@ -96,12 +113,28 @@ export default Vue.extend({
       this.abrirCarrinho = false;
     },
     finalizarCompra() {
-      debugger;
-      const result = this.carrinho.reduce(
-        (sum: number, value: number) => sum + value,
-        0
-      );
-      console.log(result);
+      if (this.carrinho.length === 0) {
+        return EventBus.$emit("show-message", {
+          msg: "Não há produtos no carrinho",
+          timeout: 3000,
+          tipoMsg: "error"
+        });
+      }
+      this.enviaVenda(this.carrinho);
+      this.abrirCarrinho = false;
+      EventBus.$emit("show-message", {
+        msg: "Compra realizada com sucesso",
+        timeout: 3000
+      });
+    },
+    loadLocalStore() {
+      const jsonCarrinho = window.localStorage.getItem("carrinho");
+      if (jsonCarrinho) {
+        const carrinhoCarregado = JSON.parse(jsonCarrinho);
+        (carrinhoCarregado as IProduto[]).map(prod => {
+          this.ADD_PRODUTO_NO_CARRINHO(prod);
+        });
+      }
     }
   },
   computed: {
@@ -109,6 +142,7 @@ export default Vue.extend({
   },
   async created() {
     this.getProdutos();
+    this.loadLocalStore();
   }
 });
 </script>

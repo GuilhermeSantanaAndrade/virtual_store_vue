@@ -9,7 +9,7 @@ export const api = {
     const response = await axiosInstance.get(url);
     return response.data;
   },
-  async post(url: string, body: string) {
+  async post(url: string, body: any) {
     const response = await axiosInstance.post(url, body);
     return response.data;
   }

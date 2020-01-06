@@ -132,11 +132,11 @@ export default Vue.extend({
 }
 
 .carrinho_remover {
+  background: rgba(0, 0, 0, 0);
   color: rgba(255, 0, 0, 0.3);
   border: none;
   cursor: pointer;
   font-weight: bold;
-  background: rgba(0, 0, 0, 0);
 }
 
 .carrinho_preco {
